@@ -7,7 +7,7 @@ struct CMINPACK <: MINPACKAlgorithm
     io::IO
 end
 
-function CMINPACK(;show_trace::Bool=false, tracing::Bool=false, method::Symbol=:hybr,
-                  io::IO=stdout)
-                  CMINPACK(show_trace, tracing, method, io)
+function CMINPACK(; show_trace::Bool = false, tracing::Bool = false, method::Symbol = :hybr,
+                  io::IO = stdout)
+    CMINPACK(show_trace, tracing, method, io)
 end

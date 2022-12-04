@@ -7,6 +7,4 @@ using Test
 const GROUP = get(ENV, "GROUP", "All")
 const is_APPVEYOR = (Sys.iswindows() && haskey(ENV, "APPVEYOR"))
 
-@time begin
-    @time @safetestset "Basics" begin include("basics.jl") end
-end
+@time begin @time @safetestset "Basics" begin include("basics.jl") end end

@@ -5,7 +5,7 @@ function SciMLBase.solve(prob::SciMLBase.AbstractSteadyStateProblem{uType, isinp
                          maxiters = 100000,
                          timeseries = [],
                          ts = [],
-                         ks = [],;
+                         ks = [], ;
                          kwargs...) where {uType, isinplace}
     if typeof(prob.u0) <: Number
         u0 = [prob.u0]
@@ -54,14 +54,14 @@ function SciMLBase.solve(prob::SciMLBase.AbstractSteadyStateProblem{uType, isinp
                              0)
         end
         original = MINPACK.fsolve(f!, g!, u0, length(u0);
-                                    tol=abstol,
-                                    show_trace, tracing, method,
-                                    iterations = maxiters, io, kwargs...)
+                                  tol = abstol,
+                                  show_trace, tracing, method,
+                                  iterations = maxiters, io, kwargs...)
     else
-       original = MINPACK.fsolve(f!, u0, length(u0);
-                      tol=abstol,
-                      show_trace, tracing, method,
-                      iterations = maxiters, io, kwargs...)
+        original = MINPACK.fsolve(f!, u0, length(u0);
+                                  tol = abstol,
+                                  show_trace, tracing, method,
+                                  iterations = maxiters, io, kwargs...)
     end
 
     u = reshape(original.x, size(u))
