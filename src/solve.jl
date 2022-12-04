@@ -41,15 +41,15 @@ function SciMLBase.solve(prob::SciMLBase.AbstractSteadyStateProblem{uType, isinp
 
     if SciMLBase.has_jac(prob.f)
         if !isinplace && typeof(prob.u0) <: Number
-            f! = (du, u) -> (du .= prob.jac(first(u), p); Cint(0))
+            g! = (du, u) -> (du .= prob.jac(first(u), p); Cint(0))
         elseif !isinplace && typeof(prob.u0) <: Vector{Float64}
-            f! = (du, u) -> (du .= prob.jac(u, p); Cint(0))
+            g! = (du, u) -> (du .= prob.jac(u, p); Cint(0))
         elseif !isinplace && typeof(prob.u0) <: AbstractArray
-            f! = (du, u) -> (du .= vec(prob.jac(reshape(u, sizeu), p)); Cint(0))
+            g! = (du, u) -> (du .= vec(prob.jac(reshape(u, sizeu), p)); Cint(0))
         elseif typeof(prob.u0) <: Vector{Float64}
-            f! = (du, u) -> prob.jac(du, u, p)
+            g! = (du, u) -> prob.jac(du, u, p)
         else # Then it's an in-place function on an abstract array
-            f! = (du, u) -> (prob.jac(reshape(du, sizeu), reshape(u, sizeu), p);
+            g! = (du, u) -> (prob.jac(reshape(du, sizeu), reshape(u, sizeu), p);
                              du = vec(du);
                              0)
         end
