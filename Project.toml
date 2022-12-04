@@ -1,0 +1,23 @@
+name = "NonlinearSolveMINPACK"
+uuid = "c100e077-885d-495a-a2ea-599e143bf69d"
+authors = ["SciML"]
+version = "0.1.0"
+
+[deps]
+MINPACK = "4854310b-de5a-5eb6-a2a5-c1dee2bd17f9"
+Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
+SciMLBase = "0bca4576-84f4-4d90-8ffe-ffa030f20462"
+
+[compat]
+MINPACK = "1"
+Reexport = "1.0"
+SciMLBase = "1.73"
+julia = "1.6"
+
+[extras]
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Pkg", "SafeTestsets", "Test"]
