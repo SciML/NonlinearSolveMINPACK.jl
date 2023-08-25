@@ -1,4 +1,4 @@
-function SciMLBase.solve(prob::SciMLBase.AbstractSteadyStateProblem{uType, isinplace},
+function SciMLBase.solve(prob::SciMLBase.AbstractNonlinearProblem{uType, isinplace},
                          alg::CMINPACK,
                          reltol = 1e-3,
                          abstol = 1e-6,
