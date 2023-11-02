@@ -7,7 +7,7 @@ function SciMLBase.solve(prob::SciMLBase.NonlinearProblem{uType, isinplace},
                          ts = [],
                          ks = [], ;
                          kwargs...) where {uType, isinplace}
-    if typeof(prob.u0) <: Number
+    if prob.u0 isa Number
         u0 = [prob.u0]
     else
         u0 = deepcopy(prob.u0)
@@ -22,13 +22,13 @@ function SciMLBase.solve(prob::SciMLBase.NonlinearProblem{uType, isinplace},
     tracing = alg.tracing
     io = alg.io
 
-    if !isinplace && typeof(prob.u0) <: Number
+    if !isinplace && prob.u0 isa Number
         f! = (du, u) -> (du .= prob.f(first(u), p); Cint(0))
-    elseif !isinplace && typeof(prob.u0) <: Vector{Float64}
+    elseif !isinplace && prob.u0 isa Vector{Float64}
         f! = (du, u) -> (du .= prob.f(u, p); Cint(0))
-    elseif !isinplace && typeof(prob.u0) <: AbstractArray
+    elseif !isinplace && prob.u0 isa AbstractArray
         f! = (du, u) -> (du .= vec(prob.f(reshape(u, sizeu), p)); Cint(0))
-    elseif typeof(prob.u0) <: Vector{Float64}
+    elseif prob.u0 isa Vector{Float64}
         f! = (du, u) -> prob.f(du, u, p)
     else # Then it's an in-place function on an abstract array
         f! = (du, u) -> (prob.f(reshape(du, sizeu), reshape(u, sizeu), p);
@@ -40,13 +40,13 @@ function SciMLBase.solve(prob::SciMLBase.NonlinearProblem{uType, isinplace},
     resid = similar(u0)
 
     if SciMLBase.has_jac(prob.f)
-        if !isinplace && typeof(prob.u0) <: Number
+        if !isinplace && prob.u0 isa Number
             g! = (du, u) -> (du .= prob.jac(first(u), p); Cint(0))
-        elseif !isinplace && typeof(prob.u0) <: Vector{Float64}
+        elseif !isinplace && prob.u0 isa Vector{Float64}
             g! = (du, u) -> (du .= prob.jac(u, p); Cint(0))
-        elseif !isinplace && typeof(prob.u0) <: AbstractArray
+        elseif !isinplace && prob.u0 isa AbstractArray
             g! = (du, u) -> (du .= vec(prob.jac(reshape(u, sizeu), p)); Cint(0))
-        elseif typeof(prob.u0) <: Vector{Float64}
+        elseif prob.u0 isa Vector{Float64}
             g! = (du, u) -> prob.jac(du, u, p)
         else # Then it's an in-place function on an abstract array
             g! = (du, u) -> (prob.jac(reshape(du, sizeu), reshape(u, sizeu), p);
